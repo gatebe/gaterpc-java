@@ -47,26 +47,26 @@ public class GateRPC {
         return array;
     }
     interface  LoginInterface{
-        PackRequest CheckQrcode(String guid,byte[] response);
+        PackRequest CheckQrcodeResponse(String guid,byte[] response);
     }
     interface  StableInterface{
         PackRequest GetQrcode(String guid);
-        PackResponse GetQrcode(String guid,byte[] response);
+        PackResponse GetQrcodeResponse(String guid,byte[] response);
         PackRequest CheckQrcode(String guid);
-        PackResponse CheckQrcode(String guid,byte[] response);
-        PackResponse ManualAuth(String guid,byte[] response);
+        PackResponse CheckQrcodeResponse(String guid,byte[] response);
+        PackResponse ManualAuthResponse(String guid,byte[] response);
         PackRequest LogOut(String guid);
-        PackResponse LogOut(String guid,byte[] response);
+        PackResponse LogOutResponse(String guid,byte[] response);
         PackRequest HeartBeat(String guid);
-        PackResponse HeartBeat(String guid,byte[] response);
+        PackResponse HeartBeatResponse(String guid,byte[] response);
         PackRequest Awake(String guid);
-        PackResponse Awake(String guid,byte[] response);
+        PackResponse AwakeResponse(String guid,byte[] response);
         PackRequest GetProfile(String guid);
-        PackResponse GetProfile(String guid,byte[] response);
+        PackResponse GetProfileResponse(String guid,byte[] response);
         PackRequest SendText(String guid,String userName,String content);
-        PackResponse SendText(String guid,byte[] response);
+        PackResponse SendTextResponse(String guid,byte[] response);
         PackRequest SendEmoji(String guid,String userName,String md5,int gameType,String content);
-        PackResponse SendEmoji(String guid,byte[] response);
+        PackResponse SendEmojiResponse(String guid,byte[] response);
     }
 
 
@@ -155,45 +155,45 @@ public class GateRPC {
 
     public PackResponse GetQrcode() {
         PackRequest request = this.instance.GetQrcode(this.guid);
-        return request.code<0 ?  request.Empty() : this.instance.GetQrcode(this.guid,request.Mmtls().response.ToBytes());
+        return request.code<0 ?  request.Empty() : this.instance.GetQrcodeResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 
     public PackResponse CheckQrcode(){
         PackRequest request = this.instance.CheckQrcode(this.guid);
         if(request.code<0 || request.code ==1) return request.Empty();
-        PackResponse response = this.instance.CheckQrcode(this.guid,request.Mmtls().response.ToBytes());
+        PackResponse response = this.instance.CheckQrcodeResponse(this.guid,request.Mmtls().response.ToBytes());
         if(response.flag !=2) return response;
-        request = this.login.CheckQrcode(this.guid,request.response.ToBytes());
-        return this.instance.ManualAuth(this.guid,request.Mmtls().response.ToBytes());
+        request = this.login.CheckQrcodeResponse(this.guid,request.response.ToBytes());
+        return this.instance.ManualAuthResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 
     public PackResponse HeartBeat(){
         PackRequest request = this.instance.HeartBeat(this.guid);
-        return request.code<0 ?  request.Empty() : this.instance.HeartBeat(this.guid,request.Mmtls().response.ToBytes());
+        return request.code<0 ?  request.Empty() : this.instance.HeartBeatResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 
     public PackResponse LogOut(){
         PackRequest request = this.instance.LogOut(this.guid);
-        return request.code<0 ?  request.Empty() : this.instance.LogOut(this.guid,request.Mmtls().response.ToBytes());
+        return request.code<0 ?  request.Empty() : this.instance.LogOutResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 
     public PackResponse Awake(){
         PackRequest request = this.instance.Awake(this.guid);
-        return request.code<0 ?  request.Empty() : this.instance.Awake(this.guid,request.Mmtls().response.ToBytes());
+        return request.code<0 ?  request.Empty() : this.instance.AwakeResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 
     public PackResponse GetProfile(){
         PackRequest request = this.instance.GetProfile(this.guid);
-        return request.code<0 ?  request.Empty() : this.instance.GetProfile(this.guid,request.Mmtls().response.ToBytes());
+        return request.code<0 ?  request.Empty() : this.instance.GetProfileResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 
     public PackResponse SendText(String userName,String content){
         PackRequest request = this.instance.SendText(this.guid,userName,content);
-        return request.code<0 ?  request.Empty() : this.instance.SendText(this.guid,request.Mmtls().response.ToBytes());
+        return request.code<0 ?  request.Empty() : this.instance.SendTextResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 
     public PackResponse SendEmoji(String userName,String md5,int gameType,String content){
         PackRequest request = this.instance.SendEmoji(this.guid,userName,md5,gameType,content);
-        return request.code<0 ?  request.Empty() : this.instance.SendEmoji(this.guid,request.Mmtls().response.ToBytes());
+        return request.code<0 ?  request.Empty() : this.instance.SendEmojiResponse(this.guid,request.Mmtls().response.ToBytes());
     }
 }
